@@ -1,5 +1,7 @@
 # various data structures
 # dict, set, hashmap, tuple, Queue, maps, heaps, 
+import math
+from typing import Optional, List
 
 def tuple():
     mytuple = (1,2,3,4,5,4)
@@ -122,9 +124,174 @@ def dictexample():
     print(dict2)
     print("alice" in dict2)
 
+
+def dequeexample():
+    from collections import deque
+    class Q:
+        def enque(self, dq, element):
+            dq.append(element)
+        def dequeue_element(self, dq):
+            return dq.popleft()
+        def getFront(self, dq):
+            return dq[0]
+        def getRear(self, dq):
+            return dq[-1]
+        def size(self, dq):
+            return len(dq)        
+        def isEmpty(self, dq):
+            if self.size(dq) == 0:
+                return True
+            return False
+
+    print("deque:\n\n")
+    # add elements
+    dq = deque()
+    qq = Q()
+    qq.enque(dq, 10)
+    qq.enque(dq, 20)
+    qq.enque(dq, 30)
+    print(dq)
+
+    qq.dequeue_element(dq)
+    print(dq)
+    qq.dequeue_element(dq)
+    print(dq)
+
+    print(qq.getFront(dq))
+    print(qq.getRear(dq))
+
+
+def treeexamples():
+
+    # Definition for a binary tree node.
+    import math
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+
+    class Solution:
+        def dfs(self, root:Optional[TreeNode], listtoadd):
+            if root is None:
+                return
+            listtoadd.append(root.val)
+            self.dfs(root.left, listtoadd)
+            self.dfs(root.right, listtoadd)
+
+        def bfs(self, root:Optional[TreeNode], listtoadd):
+            from collections import deque
+            dq = deque()
+            dq.append(root)
+
+            while dq:
+                newroot = dq.popleft()
+                listtoadd.append(newroot.val)
+                if newroot.left != None:
+                    dq.append(newroot.left)
+                if newroot.right != None:
+                    dq.append(newroot.right)
+            
+        def preorderTraversal(self, root: Optional[TreeNode], preorderlist:List[int]) -> List[int]:
+            self.dfs(root, preorderlist)
+
+        def sumthetree(self, root):
+            if root is None:
+                return 0 
+            return root.val + self.sumthetree(root.left) + self.sumthetree(root.right)
+
+        def height_tree(self, root):
+            if root is None:
+                return 0
+            return 1 + max(self.height_tree(root.left), self.height_tree(root.right))
+
+        def max_tree(self, root):
+            if root is None:
+                return -math.inf
+            return max(self.max_tree(root.left), self.max_tree(root.right), root.val)
+        
+        def ispresentintree(self, root, target) -> bool:
+            if root is None:
+                return False
+            if root.val == target: 
+                return True
+            return self.ispresentintree(root.left, target) or self.ispresentintree(root.right, target)
+
+        def mirrortree(self, root):
+            if root is None:
+                return
+            
+            temp = root.left
+            root.left = root.right
+            root.right = temp
+
+            self.mirrortree(root.left)
+            self.mirrortree(root.right)
+
+
+        def issymmetric(self, root):
+            if root is None:
+                return
+            if root.left and root.right and root.left.val == root.right.val:
+                return True
+            else:
+                return False
+            return self.issymmetric(root.left) and self.issymmetric(root.right)
+
+    # A = TreeNode(1)
+    # B = TreeNode(2)
+    # C = TreeNode(3)
+    # A.left, A.right = B, C
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(2)
+    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+    root.right.left = TreeNode(4)
+    root.right.right = TreeNode(4)
+    """
+        1
+    2       3
+
+    """
+
+    sol = Solution()
+    finallist = []
+    # sol.preorderTraversal((root), finallist)
+    # print(finallist)
+
+    # bfslist = []
+    # sol.bfs(root, bfslist)
+    # print(bfslist)
+
+
+    # sumtree = 0
+    # print(sol.sumthetree(root))
+
+
+
+    print("Height", sol.height_tree(root))
+    print("Max tree", sol.max_tree(root))
+    print("Sum tree", sol.sumthetree(root))
+    print("is 2 present in tree", sol.ispresentintree(root, 2))
+
+    sol.preorderTraversal((root), finallist)
+    print("Before mirror")
+    print(finallist)
+    finallist = []
+    sol.mirrortree(root)
+    sol.preorderTraversal((root), finallist)
+    print("After mirror")
+    print(finallist)
+
+
+    print("Is symmetric = ", sol.issymmetric(root))
+        
 if __name__ == "__main__":
     # tuple
     tuple()
     setexample()
     dictexample()
+    dequeexample()
+    treeexamples()
     # tuple list, dict, set are builtin data structures in python
